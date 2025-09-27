@@ -1,0 +1,400 @@
+// Product data
+const products = {
+    offset: {
+        name: "Offset Wood Free Paper",
+        image: "resources/offset-paper.jpg",
+        description: "High-quality uncoated paper manufactured from 100% virgin wood pulp. Features excellent smoothness, high brightness, and superior printability for offset printing applications.",
+        specifications: {
+            "Grammage": "55-128 gsm",
+            "Brightness": "98%-108%",
+            "Whiteness": "78±2%",
+            "Opacity": "≥84%",
+            "Moisture": "6±0.5%",
+            "Smoothness": "≥25s",
+            "Cobb60": "25±5 g/m²"
+        },
+        applications: ["Textbooks", "Magazines", "Annual Reports", "Product Manuals", "Educational Materials"],
+        features: ["100% Virgin Wood Pulp", "High Brightness", "Excellent Printability", "Archival Quality", "Eco-Friendly"]
+    },
+    testliner: {
+        name: "Testliner Paper",
+        image: "resources/testliner-paper.jpg",
+        description: "Recycled fiber-based linerboard used for corrugated packaging. Available in three grades offering different strength and cost characteristics.",
+        specifications: {
+            "Grammage": "125-300 gsm",
+            "Burst Factor": "12-40 BF",
+            "Recycled Content": "70-100%",
+            "Moisture": "7-8%",
+            "Grade Types": "Testliner 1, 2, 3"
+        },
+        applications: ["Corrugated Boxes", "Shipping Cartons", "Display Packaging", "Industrial Packaging"],
+        features: ["Cost Effective", "Recycled Materials", "Good Strength", "Printable Surface", "Sustainable"]
+    },
+    fluting: {
+        name: "Fluting Paper",
+        image: "resources/fluting-paper.jpg",
+        description: "Corrugated medium paper that provides structural support and cushioning protection in packaging applications. High compression resistance.",
+        specifications: {
+            "Grammage": "90-230 gsm",
+            "Ring Crush": "8-32 kgf/6inch",
+            "Material": "100% Recycled",
+            "Moisture": "7-8%",
+            "BF Range": "12-28 BF"
+        },
+        applications: ["Corrugated Medium", "Protective Packaging", "Cushioning Material", "Void Fill"],
+        features: ["High Compression Strength", "Cushioning Properties", "Recycled Content", "Cost Effective", "Versatile"]
+    },
+    art: {
+        name: "Art Paper",
+        image: "resources/art-paper.jpg",
+        description: "Premium coated paper with excellent surface smoothness and high gloss finish. Ideal for high-quality color printing and premium packaging.",
+        specifications: {
+            "Grammage": "80-250 gsm",
+            "Coating": "Single/Double Side",
+            "Finish": "Glossy/Matte",
+            "Brightness": "High",
+            "Opacity": "Excellent"
+        },
+        applications: ["Magazines", "Brochures", "Catalogs", "Premium Packaging", "Art Books"],
+        features: ["High Gloss Finish", "Excellent Color Reproduction", "Smooth Surface", "Premium Quality", "Versatile"]
+    },
+    kraftliner: {
+        name: "Kraftliner",
+        image: "resources/kraftliner.jpg",
+        description: "High-strength linerboard made from virgin kraft pulp. Superior strength and moisture resistance for heavy-duty packaging applications.",
+        specifications: {
+            "Grammage": "125-440 gsm",
+            "Fiber Content": "100% Virgin",
+            "Burst Strength": "High",
+            "Moisture Resistance": "Excellent",
+            "Color": "Brown/White"
+        },
+        applications: ["Heavy Duty Boxes", "Food Packaging", "Export Packaging", "Industrial Crates"],
+        features: ["Superior Strength", "Moisture Resistant", "Virgin Fibers", "Food Grade", "Heavy Duty"]
+    },
+    "white-top": {
+        name: "White Top Liner",
+        image: "resources/white-top-liner.jpg",
+        description: "Two-ply linerboard with white surface layer for premium printing quality. Combines strength of kraft with excellent printability.",
+        specifications: {
+            "Grammage": "125-200 gsm",
+            "Brightness": "75% (TAPPI)",
+            "Structure": "Two-ply",
+            "Top Layer": "Bleached White",
+            "Base Layer": "Kraft"
+        },
+        applications: ["Premium Packaging", "Display Boxes", "Food Packaging", "E-commerce Boxes"],
+        features: ["Excellent Printability", "High Strength", "White Surface", "Food Safe", "Premium Appearance"]
+    },
+    duplex: {
+        name: "Duplex Board with Grey Back",
+        image: "resources/duplex-board.jpg",
+        description: "Cost-effective duplex board with grey recycled back and white coated front. Ideal for consumer goods packaging and printing.",
+        specifications: {
+            "Grammage": "170-450 gsm",
+            "Front": "White Coated",
+            "Back": "Grey Recycled",
+            "Surface": "Smooth",
+            "Printability": "Good"
+        },
+        applications: ["Consumer Goods", "Cosmetics", "Pharmaceuticals", "Food Packaging"],
+        features: ["Cost Effective", "Good Printability", "Recycled Content", "Versatile", "Stable Quality"]
+    },
+    "mf-mg": {
+        name: "MF/MG Kraft Paper",
+        image: "resources/mf-kraft.jpg",
+        description: "Machine finished or machine glazed kraft paper with smooth surface and high strength. Suitable for food contact applications.",
+        specifications: {
+            "Grammage": "60-200 gsm",
+            "Finish": "MF/MG",
+            "Color": "Natural/Golden",
+            "Food Grade": "Yes",
+            "Strength": "High"
+        },
+        applications: ["Paper Bags", "Food Packaging", "Wrapping", "Industrial Use"],
+        features: ["Food Grade", "Smooth Surface", "High Strength", "Recyclable", "Versatile"]
+    }
+};
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    initializeCarousel();
+    initializeCounters();
+    initializeFilters();
+    initializeMobileMenu();
+    initializeScrollAnimations();
+});
+
+// Initialize hero carousel
+function initializeCarousel() {
+    if (document.getElementById('hero-carousel')) {
+        new Splide('#hero-carousel', {
+            type: 'loop',
+            autoplay: true,
+            interval: 4000,
+            arrows: false,
+            pagination: true,
+            pauseOnHover: true
+        }).mount();
+    }
+}
+
+// Initialize animated counters
+function initializeCounters() {
+    const counters = document.querySelectorAll('[data-count]');
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-count'));
+                animateCounter(counter, target);
+                observer.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+
+    counters.forEach(counter => observer.observe(counter));
+}
+
+// Animate counter
+function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current) + (target >= 100 ? '+' : '');
+    }, 40);
+}
+
+// Initialize product filters
+function initializeFilters() {
+    const typeFilter = document.getElementById('paper-type-filter');
+    const gsmFilter = document.getElementById('gsm-filter');
+    const applicationFilter = document.getElementById('application-filter');
+
+    if (typeFilter) {
+        typeFilter.addEventListener('change', filterProducts);
+        gsmFilter.addEventListener('change', filterProducts);
+        applicationFilter.addEventListener('change', filterProducts);
+        
+        // Initial filter display
+        filterProducts();
+    }
+}
+
+// Filter products based on selected criteria
+function filterProducts() {
+    const typeFilter = document.getElementById('paper-type-filter')?.value || '';
+    const gsmFilter = document.getElementById('gsm-filter')?.value || '';
+    const applicationFilter = document.getElementById('application-filter')?.value || '';
+    
+    const resultsContainer = document.getElementById('filtered-results');
+    if (!resultsContainer) return;
+
+    let filteredProducts = Object.keys(products);
+
+    // Filter by type
+    if (typeFilter) {
+        filteredProducts = filteredProducts.filter(key => key === typeFilter);
+    }
+
+    // Filter by GSM
+    if (gsmFilter) {
+        filteredProducts = filteredProducts.filter(key => {
+            const product = products[key];
+            const gsmRange = product.specifications.Grammage;
+            const minGsm = parseInt(gsmRange.match(/\d+/)[0]);
+            
+            switch (gsmFilter) {
+                case 'light': return minGsm <= 100;
+                case 'medium': return minGsm > 100 && minGsm <= 200;
+                case 'heavy': return minGsm > 200;
+                default: return true;
+            }
+        });
+    }
+
+    // Filter by application
+    if (applicationFilter) {
+        filteredProducts = filteredProducts.filter(key => {
+            const product = products[key];
+            return product.applications.some(app => 
+                app.toLowerCase().includes(applicationFilter.toLowerCase())
+            );
+        });
+    }
+
+    // Display results
+    displayFilteredResults(filteredProducts, resultsContainer);
+}
+
+// Display filtered product results
+function displayFilteredResults(productKeys, container) {
+    if (productKeys.length === 0) {
+        container.innerHTML = '<div class="col-span-full text-center text-slate-500 py-8">No products match your criteria. Please adjust your filters.</div>';
+        return;
+    }
+
+    container.innerHTML = productKeys.map(key => {
+        const product = products[key];
+        return `
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-slate-800 mb-2">${product.name}</h3>
+                    <p class="text-slate-600 text-sm mb-4">${product.description.substring(0, 100)}...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-600 font-semibold">${product.specifications.Grammage}</span>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors" onclick="showProductDetails('${key}')">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Show product details modal
+function showProductDetails(productKey) {
+    const product = products[productKey];
+    if (!product) return;
+
+    const modal = document.getElementById('product-modal');
+    const title = document.getElementById('modal-title');
+    const content = document.getElementById('modal-content');
+
+    title.textContent = product.name;
+    
+    content.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover rounded-lg">
+            <div>
+                <p class="text-slate-600 mb-4">${product.description}</p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    ${product.features.map(feature => 
+                        `<span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">${feature}</span>`
+                    ).join('')}
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="text-lg font-semibold text-slate-800 mb-3">Technical Specifications</h4>
+                <div class="space-y-2">
+                    ${Object.entries(product.specifications).map(([key, value]) => 
+                        `<div class="flex justify-between py-2 border-b border-slate-200">
+                            <span class="font-medium text-slate-600">${key}:</span>
+                            <span class="text-slate-800">${value}</span>
+                        </div>`
+                    ).join('')}
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="text-lg font-semibold text-slate-800 mb-3">Applications</h4>
+                <ul class="space-y-2">
+                    ${product.applications.map(app => 
+                        `<li class="flex items-center text-slate-600">
+                            <svg class="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            ${app}
+                        </li>`
+                    ).join('')}
+                </ul>
+                
+                <div class="mt-6">
+                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors" onclick="requestQuote('${productKey}')">
+                        Request Quote
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close modal
+function closeModal() {
+    const modal = document.getElementById('product-modal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+// Request quote function
+function requestQuote(productKey) {
+    const product = products[productKey];
+    alert(`Quote request for ${product.name} has been initiated. You will be redirected to our contact form.`);
+    window.location.href = 'contact.html';
+}
+
+// Initialize mobile menu
+function initializeMobileMenu() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+}
+
+// Initialize scroll animations
+function initializeScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.card-hover');
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                anime({
+                    targets: entry.target,
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 600,
+                    easing: 'easeOutQuad',
+                    delay: Math.random() * 200
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        observer.observe(el);
+    });
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('product-modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeModal();
+    }
+});
